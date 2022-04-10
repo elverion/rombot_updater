@@ -45,9 +45,7 @@ func main() {
 		check()
 		break
 	default:
-		print("Invalid command: `%s`", action)
-		//printf("Invalid command: `%s`", action)
-		//fmt.Printf()
+		fmt.Printf("Invalid command: `%s`\n", action)
 		break
 	}
 }
@@ -87,7 +85,7 @@ func update(tag string) {
 	os.Mkdir(tmpDir, os.ModePerm)
 	out, err := os.Create(tmpDir + "\\" + zipFilename)
 	if err != nil {
-		fmt.Printf("err: %s", err)
+		fmt.Printf("err: %s\n", err)
 	}
 	defer out.Close()
 
