@@ -29,7 +29,6 @@ func main() {
 		checkCmd  = "check"
 	)
 
-	// Must be after flag.Parse()
 	flag.Parse()
 	action := updateCmd
 	if flag.NArg() > 0 {
@@ -139,8 +138,14 @@ func update(tag string) {
 		}
 	}
 
+	clearCache()
 	log.Print("\x1b[32mAll files updated successfully!\x1b[0m")
 	time.Sleep(2 * time.Second)
+}
+
+func clearCache() {
+	log.Print("\x1b[32mClearing cache\x1b[0m")
+	os.Remove("cache/texts.lua")
 }
 
 func updateSelf(fname string, fromPath string) {
@@ -151,9 +156,11 @@ func updateSelf(fname string, fromPath string) {
 		os.Remove(tmpName)
 	}
 
-	err = os.Rename(fname, tmpName)
-	if err != nil {
-		log.Fatal(err)
+	if _, err := os.Stat(fname); err == nil {
+		err = os.Rename(fname, tmpName)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	dest, err := os.Create(fname)
